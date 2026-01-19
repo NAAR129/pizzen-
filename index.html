@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Pizzen und Brüche – Aktivität 1 und 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #ffeaa7 0, #fab1a0 30%, #81ecec 100%);
+      margin: 0;
+      padding: 20px 12px 40px;
+      color: #2d3436;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 5px;
+      font-size: 2rem;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #2d3436;
+      margin-bottom: 20px;
+    }
+
+    .subtitulo strong {
+      color: #d63031;
+    }
+
+    .juego {
+      max-width: 960px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: 22px 22px 18px;
+      border: 3px solid rgba(255,255,255,0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .juego::before {
+      content: "🍕";
+      position: absolute;
+      font-size: 2.2rem;
+      opacity: 0.18;
+      top: -6px;
+      right: 16px;
+      transform: rotate(10deg);
+    }
+
+    .barra-superior-juego {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .niveles {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nivel-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid #ffeaa7;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      position: relative;
+    }
+
+    .nivel-btn span.badge {
+      background: #fdcb6e;
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 0.75rem;
+    }
+
+    .nivel-btn.activo {
+      background: #fdcb6e;
+      border-color: #e17055;
+      color: #2d3436;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      transform: translateY(-1px);
+    }
+
+    /* Subniveles Actividad 2 */
+    .subniveles {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .subnivel-btn {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #dfe6e9;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .subnivel-btn.activo {
+      background: #ffeaa7;
+      border-color: #e17055;
+      font-weight: 600;
+    }
+
+    /* ---- Aktivität 1 ---- */
+
+    #actividad1 { margin-top: 6px; }
+
+    .zona-actividad1 {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .fraccion-box-actividad1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 3px dashed #e67e22;
+      padding-right: 20px;
+      min-width: 230px;
+      text-align: center;
+    }
+
+    .fraccion-box-actividad1 h2 {
+      margin: 4px 0 8px;
+      font-size: 1rem;
+    }
+
+    .fraccion-simple {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .fraccion-simple input {
+      width: 70px;
+      font-size: 1.5rem;
+      padding: 5px;
+      text-align: center;
+      border-radius: 10px;
+      border: 2px solid #e67e22;
+    }
+
+    .fraccion-simple .linea {
+      width: 60px;
+      height: 4px;
+      background: #d35400;
+      margin: 4px 0;
+    }
+
+    .boton {
+      padding: 9px 16px;
+      font-size: 0.95rem;
+      background: #ffb067;
+      border: 2px solid #d35400;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+    .boton:hover {
+      background: #ffcb91;
+      transform: scale(1.05);
+    }
+
+    .pizzas-actividad1 {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: flex-start;
+      min-height: 170px;
+    }
+
+    .pizza-card {
+      width: 150px;
+      text-align: center;
+    }
+
+    .pizza-svg {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto;
+    }
+
+    /* ---- Aktivität 2 ---- */
+
+    #actividad2 { margin-top: 6px; }
+
+    .historia {
+      background: #f7f8ff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      border: 1px dashed #b2bec3;
+      position: relative;
+    }
+
+    .historia::before {
+      content: "Geschichte";
+      position: absolute;
+      top: -11px;
+      left: 14px;
+      font-size: 0.7rem;
+      background: #6c5ce7;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .historia strong {
+      color: #0984e3;
+    }
+
+    .zona-fracciones {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+      justify-content: center;
+    }
+
+    .carta-fraccion {
+      flex: 1 1 270px;
+      max-width: 320px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 10px 12px 12px;
+      border: 2px solid #ffeaa7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .carta-fraccion h3 {
+      margin-top: 6px;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cinta-nombre {
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      background: #fd79a8;
+      color: #fff;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cinta-nombre.azul {
+      background: #74b9ff;
+    }
+
+    .nombre-icono {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .nombre-icono.luna {
+      background: linear-gradient(135deg, #fd79a8, #ffeaa7);
+    }
+
+    .nombre-icono.max {
+      background: linear-gradient(135deg, #74b9ff, #a29bfe);
+    }
+
+    .fraccion-grande {
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .fraccion-grande span {
+      display: block;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .linea-fraccion {
+      border-top: 2px solid #2d3436;
+      width: 40px;
+      margin: 2px 0;
+    }
+
+    .redonda {
+      width: 150px;
+      height: 150px;
+      margin: 4px 0 6px;
+    }
+
+    .nota-pequena {
+      font-size: 0.8rem;
+      color: #636e72;
+      margin-top: 4px;
+    }
+
+    .panel-respuesta {
+      background: #fffaf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px dashed #e17055;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .fraccion-respuesta {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 6px 0;
+    }
+
+    .fraccion-respuesta input {
+      width: 70px;
+      font-size: 1.1rem;
+      padding: 4px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid #e17055;
+    }
+
+    .panel-verificacion {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .pizzas-respuesta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 150px;
+    }
+
+    .pizza-respuesta-card {
+      width: 140px;
+      text-align: center;
+    }
+
+    .pizza-respuesta-svg {
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 4px;
+    }
+
+    #feedbackRespuesta {
+      font-size: 0.85rem;
+      min-width: 180px;
+    }
+
+    .respuesta-bien {
+      color: #27ae60;
+      font-weight: 600;
+    }
+
+    .respuesta-mal {
+      color: #c0392b;
+      font-weight: 600;
+    }
+
+    .btn-mini {
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      border-radius: 999px;
+      border: 1px solid #fab1a0;
+      background: #ffeaa7;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-mini:hover {
+      background: #ffd1a6;
+    }
+
+    .panel-corte {
+      background: #fffaf3;
+      border-radius: 12px;
+      padding: 8px 10px;
+      border: 1px dashed #e17055;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      width: 100%;
+    }
+
+    .panel-corte input {
+      width: 60px;
+      padding: 3px;
+      text-align: center;
+      border-radius: 6px;
+      border: 1px solid #dcdde1;
+      margin-right: 4px;
+    }
+
+    .mensaje {
+      margin-top: 8px;
+      background: #fff8e6;
+      border-radius: 12px;
+      padding: 9px 11px;
+      font-size: 0.9rem;
+      border: 1px solid #ffd79a;
+      position: relative;
+    }
+
+    .mensaje::before {
+      content: "💡";
+      position: absolute;
+      left: 8px;
+      top: 6px;
+      font-size: 1rem;
+    }
+
+    .mensaje.ok {
+      background: #e6fff3;
+      border-color: #8cffc2;
+    }
+
+    .mensaje.ok::before {
+      content: "✅";
+    }
+
+    .mensaje-texto {
+      padding-left: 24px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 14px;
+    }
+    .autor {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #d63031;
+      border: 2px solid #ff7675;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 12px 8px 28px;
+      }
+      .juego {
+        padding: 16px 14px;
+      }
+      .zona-actividad1 {
+        flex-direction: column;
+      }
+      .fraccion-box-actividad1 {
+        border-right: none;
+        border-bottom: 3px dashed #e67e22;
+        padding-right: 0;
+        padding-bottom: 10px;
+      }
+      .zona-fracciones {
+        flex-direction: column;
+        align-items: center;
+      }
+      .carta-fraccion {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🍕 Pizzen und Brüche</h1>
+  <div class="subtitulo">
+    <strong>Aktivität 1:</strong> In wie viele Stücke ist die Pizza geschnitten und wie viele Stücke haben wir?  
+    <strong>Aktivität 2:</strong> Wie viel Pizza bleibt insgesamt übrig?
+  </div>
+
+  <div class="juego">
+    <!-- Barra superior -->
+    <div class="barra-superior-juego">
+      <div class="niveles">
+        <button class="nivel-btn activo" data-nivel="0">
+          <span class="badge">Aktivität 1</span>
+        </button>
+        <button class="nivel-btn" data-nivel="1">
+          <span class="badge">Aktivität 2</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 1 -->
+    <div id="actividad1">
+      <div class="zona-actividad1">
+        <div class="fraccion-box-actividad1">
+          <h2>In wie viele Stücke ist die Pizza geschnitten<br>und wie viele Stücke haben wir?</h2>
+          <div class="fraccion-simple">
+            <input id="numA1" type="number" min="0" value="5">
+            <div class="linea"></div>
+            <input id="denA1" type="number" min="1" value="7">
+          </div>
+          <button class="boton" id="btnMostrarA1">Anzeigen</button>
+        </div>
+        <div id="pizzasActividad1" class="pizzas-actividad1"></div>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 2 -->
+    <div id="actividad2" style="display:none;">
+
+      <!-- Subactividades A, B, C -->
+      <div class="subniveles">
+        <button class="subnivel-btn activo" data-escenario="A">A)</button>
+        <button class="subnivel-btn" data-escenario="B">B)</button>
+        <button class="subnivel-btn" data-escenario="C">C)</button>
+      </div>
+
+      <div id="historia" class="historia"></div>
+
+      <div class="zona-fracciones">
+        <div class="carta-fraccion">
+          <div class="cinta-nombre">Luna</div>
+          <h3><span class="nombre-icono luna">🌙</span>Pizza von Luna</h3>
+          <div class="fraccion-grande">
+            <span id="n1"></span>
+            <div class="linea-fraccion"></div>
+            <span id="d1"></span>
+          </div>
+          <div id="redonda1" class="redonda"></div>
+          <button id="btnCortarLuna" class="btn-mini" style="display:none;">
+            🍴 Pizza von Luna schneiden
+          </button>
+          <div id="panelCorteLuna" class="panel-corte" style="display:none;">
+            <div>In wie viele Teile möchtest du jedes Stück schneiden? 🍴</div>
+            <div>
+              <input type="number" id="inputFactorLuna" min="1" max="10" placeholder="2, 3, 4...">
+              <button id="btnAplicarCorteLuna" class="btn-mini">Schnitt anwenden</button>
+            </div>
+            <div id="mensajeCorteLuna" class="nota-pequena" style="color:#c0392b;"></div>
+          </div>
+          <button id="btnResetLuna" class="btn-mini" style="display:none; margin-top:4px;">
+            🔄 Zum ursprünglichen Schnitt zurück
+          </button>
+        </div>
+
+        <div class="carta-fraccion">
+          <div class="cinta-nombre azul">Max</div>
+          <h3><span class="nombre-icono max">⭐</span>Pizza von Max</h3>
+          <div class="fraccion-grande">
+            <span id="n2"></span>
+            <div class="linea-fraccion"></div>
+            <span id="d2"></span>
+          </div>
+          <div id="redonda2" class="redonda"></div>
+          <button id="btnCortarMax" class="btn-mini" style="display:none;">
+            🍴 Pizza von Max schneiden
+          </button>
+          <div id="panelCorteMax" class="panel-corte" style="display:none;">
+            <div>In wie viele Teile möchtest du jedes Stück schneiden? 🍴</div>
+            <div>
+              <input type="number" id="inputFactorMax" min="1" max="10" placeholder="2, 3, 4...">
+              <button id="btnAplicarCorteMax" class="btn-mini">Schnitt anwenden</button>
+            </div>
+            <div id="mensajeCorteMax" class="nota-pequena" style="color:#c0392b;"></div>
+          </div>
+          <button id="btnResetMax" class="btn-mini" style="display:none; margin-top:4px;">
+            🔄 Zum ursprünglichen Schnitt zurück
+          </button>
+        </div>
+      </div>
+
+      <!-- Pregunta: ¿cuánta pizza quedó? -->
+      <div class="panel-respuesta">
+        <div><strong>Wie viel Pizza ist insgesamt bei Luna und Max übrig geblieben?</strong></div>
+        <div class="fraccion-respuesta">
+          <input id="respNum" type="number" min="0" placeholder="Zähler">
+          <div class="linea" style="width:60px;height:3px;background:#2d3436;margin:3px 0;"></div>
+          <input id="respDen" type="number" min="1" placeholder="Nenner">
+        </div>
+        <button class="boton" id="btnVerificar">Überprüfen</button>
+
+        <div class="panel-verificacion">
+          <div id="pizzasRespuesta" class="pizzas-respuesta"></div>
+          <div id="feedbackRespuesta" class="nota-pequena"></div>
+        </div>
+      </div>
+
+      <div id="mensaje" class="mensaje" style="display:none;">
+        <div class="mensaje-texto" id="mensajeTexto"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="autor">© Nicolás Alarcón-Relmucao</div>
+  </footer>
+
+  <script>
+    // ---------- Utilidades ----------
+    function mcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=b;b=a%b;a=t;}return a||1;}
+    function mcm(a,b){return (a*b)/mcd(a,b);}
+
+    // ---------- Pizza sobre tabla de madera, con cortes visibles ----------
+    function crearPizzaConSalame(pintados, total) {
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("viewBox", "-1.3 -1.3 2.6 2.6");
+
+      // Holzbrett
+      const tabla = document.createElementNS(ns, "circle");
+      tabla.setAttribute("cx", 0);
+      tabla.setAttribute("cy", 0);
+      tabla.setAttribute("r", 1.2);
+      tabla.setAttribute("fill", "#c49a6c");
+      svg.appendChild(tabla);
+
+      const bordeTabla = document.createElementNS(ns, "circle");
+      bordeTabla.setAttribute("cx", 0);
+      bordeTabla.setAttribute("cy", 0);
+      bordeTabla.setAttribute("r", 1.23);
+      bordeTabla.setAttribute("fill", "none");
+      bordeTabla.setAttribute("stroke", "#8e6b3c");
+      bordeTabla.setAttribute("stroke-width", "0.06");
+      svg.appendChild(bordeTabla);
+
+      const colorQueso = "#ffd86b";
+      const colorBorde = "#d35400";
+      const colorSalame = "#c0392b";
+
+      const rPizza = 1.0;
+
+      // Jede Scheibe: wenn vorhanden, Käse; wenn nicht, Holzbrett
+      for (let i = 0; i < total; i++) {
+        const angInicio = -Math.PI/2 + (2*Math.PI*i)/total;
+        const angFin = -Math.PI/2 + (2*Math.PI*(i+1))/total;
+        const largeArcFlag = (angFin - angInicio) > Math.PI ? 1 : 0;
+
+        const x1 = rPizza * Math.cos(angInicio);
+        const y1 = rPizza * Math.sin(angInicio);
+        const x2 = rPizza * Math.cos(angFin);
+        const y2 = rPizza * Math.sin(angFin);
+
+        const porcion = document.createElementNS(ns, "path");
+        const dAttr = [
+          "M 0 0",
+          "L", x1, y1,
+          "A", rPizza, rPizza, 0, largeArcFlag, 1, x2, y2,
+          "Z"
+        ].join(" ");
+        porcion.setAttribute("d", dAttr);
+        porcion.setAttribute("fill", i < pintados ? colorQueso : "#c49a6c");
+        porcion.setAttribute("stroke", "#fdf1c7");
+        porcion.setAttribute("stroke-width", "0.02");
+        svg.appendChild(porcion);
+
+        // Belag nur auf den vorhandenen Stücken
+        if (i < pintados) {
+          const angMedio = (angInicio + angFin) / 2;
+          const rPep = 0.6 * rPizza;
+          const cx = rPep * Math.cos(angMedio);
+          const cy = rPep * Math.sin(angMedio);
+
+          const salame = document.createElementNS(ns, "circle");
+          salame.setAttribute("cx", cx);
+          salame.setAttribute("cy", cy);
+          salame.setAttribute("r", 0.18);
+          salame.setAttribute("fill", colorSalame);
+          salame.setAttribute("stroke", "#7f2620");
+          salame.setAttribute("stroke-width", "0.03");
+          svg.appendChild(salame);
+        }
+      }
+
+      // Pizzarand (wenn es mindestens ein Stück gibt)
+      if (pintados > 0) {
+        const bordePizza = document.createElementNS(ns, "circle");
+        bordePizza.setAttribute("cx", 0);
+        bordePizza.setAttribute("cy", 0);
+        bordePizza.setAttribute("r", rPizza);
+        bordePizza.setAttribute("fill", "none");
+        bordePizza.setAttribute("stroke", colorBorde);
+        bordePizza.setAttribute("stroke-width", "0.08");
+        svg.appendChild(bordePizza);
+      }
+
+      return svg;
+    }
+
+    // ---------- AKTIVITÄT 1 ----------
+    const numA1 = document.getElementById('numA1');
+    const denA1 = document.getElementById('denA1');
+    const btnMostrarA1 = document.getElementById('btnMostrarA1');
+    const pizzasActividad1 = document.getElementById('pizzasActividad1');
+
+    function dibujarActividad1() {
+      pizzasActividad1.innerHTML = "";
+      const n = parseInt(numA1.value, 10);
+      const d = parseInt(denA1.value, 10);
+      if (isNaN(n) || isNaN(d) || d <= 0 || n < 0) return;
+
+      const completas = Math.floor(n / d);
+      const resto = n % d;
+      const totalPizzas = completas + (resto > 0 ? 1 : 0);
+      if (totalPizzas === 0) return;
+
+      for (let i = 0; i < totalPizzas; i++) {
+        const card = document.createElement('div');
+        card.className = 'pizza-card';
+        const svgWrap = document.createElement('div');
+        svgWrap.className = 'pizza-svg';
+
+        const trozos = (i < completas) ? d : resto;
+        svgWrap.appendChild(crearPizzaConSalame(trozos, d));
+        card.appendChild(svgWrap);
+        pizzasActividad1.appendChild(card);
+      }
+    }
+
+    btnMostrarA1.addEventListener('click', dibujarActividad1);
+
+    // ---------- AKTIVITÄT 2 ----------
+
+    const actividad1Div = document.getElementById('actividad1');
+    const actividad2Div = document.getElementById('actividad2');
+    const botonesNivel = document.querySelectorAll('.nivel-btn');
+
+    const historiaDiv = document.getElementById('historia');
+    const n1Span = document.getElementById('n1');
+    const d1Span = document.getElementById('d1');
+    const n2Span = document.getElementById('n2');
+    const d2Span = document.getElementById('d2');
+    const redonda1 = document.getElementById('redonda1');
+    const redonda2 = document.getElementById('redonda2');
+
+    const respNum = document.getElementById('respNum');
+    const respDen = document.getElementById('respDen');
+    const btnVerificar = document.getElementById('btnVerificar');
+    const pizzasRespuesta = document.getElementById('pizzasRespuesta');
+    const feedbackRespuesta = document.getElementById('feedbackRespuesta');
+
+    const btnCortarLuna = document.getElementById('btnCortarLuna');
+    const btnCortarMax = document.getElementById('btnCortarMax');
+    const panelCorteLuna = document.getElementById('panelCorteLuna');
+    const panelCorteMax = document.getElementById('panelCorteMax');
+    const inputFactorLuna = document.getElementById('inputFactorLuna');
+    const inputFactorMax = document.getElementById('inputFactorMax');
+    const btnAplicarCorteLuna = document.getElementById('btnAplicarCorteLuna');
+    const btnAplicarCorteMax = document.getElementById('btnAplicarCorteMax');
+    const mensajeCorteLuna = document.getElementById('mensajeCorteLuna');
+    const mensajeCorteMax = document.getElementById('mensajeCorteMax');
+
+    const btnResetLuna = document.getElementById('btnResetLuna');
+    const btnResetMax = document.getElementById('btnResetMax');
+
+    const mensajeDiv = document.getElementById('mensaje');
+    const mensajeTextoDiv = document.getElementById('mensajeTexto');
+
+    const subnivelBtns = document.querySelectorAll('.subnivel-btn');
+
+    // Szenarien für Aktivität 2
+    const escenarios = {
+      A: { n1:2, d1:8, n2:3, d2:8 }, // 2/8 und 3/8
+      B: { n1:1, d1:6, n2:1, d2:3 }, // 1/6 und 1/3
+      C: { n1:1, d1:2, n2:1, d2:3 }  // 1/2 und 1/3
+    };
+
+    let escenarioActual = 'A';
+    let estadoAct2 = { ...escenarios[escenarioActual] };
+
+    function dibujarPizzaAct2() {
+      const {n1,d1,n2,d2} = estadoAct2;
+      n1Span.textContent = n1;
+      d1Span.textContent = d1;
+      n2Span.textContent = n2;
+      d2Span.textContent = d2;
+
+      redonda1.innerHTML = "";
+      redonda1.appendChild(crearPizzaConSalame(n1,d1));
+      redonda2.innerHTML = "";
+      redonda2.appendChild(crearPizzaConSalame(n2,d2));
+    }
+
+    function sumaActualSimplificada() {
+      const {n1,d1,n2,d2} = estadoAct2;
+      const l = mcm(d1,d2);
+      let num = n1 * (l/d1) + n2 * (l/d2);
+      let den = l;
+      const g = mcd(num,den);
+      return { num: num/g, den: den/g };
+    }
+
+    function textoHistoriaParaEscenario(id) {
+      const esc = escenarios[id];
+      return `
+        Luna und Max bestellen <strong>jeweils eine eigene Pizza</strong>.<br>
+        Sie essen einen Teil ihrer Pizzen und übrig bleibt:<br>
+        &bull; Bei Luna bleibt <strong>${esc.n1}/${esc.d1}</strong> ihrer Pizza übrig.<br>
+        &bull; Bei Max bleibt <strong>${esc.n2}/${esc.d2}</strong> seiner Pizza übrig.<br><br>
+        Jetzt möchten sie das, was übrig ist, zusammenlegen und fragen sich:<br>
+        <strong>Wie viel Pizza ist insgesamt übrig geblieben?</strong>
+      `;
+    }
+
+    function renderActividad2() {
+      historiaDiv.innerHTML = textoHistoriaParaEscenario(escenarioActual);
+
+      dibujarPizzaAct2();
+
+      pizzasRespuesta.innerHTML = "";
+      feedbackRespuesta.textContent = "";
+      feedbackRespuesta.className = "nota-pequena";
+
+      mensajeDiv.style.display = 'none';
+      mensajeDiv.classList.remove('ok');
+      mensajeTextoDiv.textContent = "";
+
+      respNum.value = "";
+      respDen.value = "";
+
+      // Paneele und Buttons ausblenden
+      btnCortarLuna.style.display = 'none';
+      btnCortarMax.style.display = 'none';
+      panelCorteLuna.style.display = 'none';
+      panelCorteMax.style.display = 'none';
+      mensajeCorteLuna.textContent = "";
+      mensajeCorteMax.textContent = "";
+      inputFactorLuna.value = "";
+      inputFactorMax.value = "";
+      btnResetLuna.style.display = 'none';
+      btnResetMax.style.display = 'none';
+    }
+
+    function cambiarEscenario(nuevo) {
+      escenarioActual = nuevo;
+      subnivelBtns.forEach(b => {
+        b.classList.toggle('activo', b.getAttribute('data-escenario') === nuevo);
+      });
+      estadoAct2 = { ...escenarios[escenarioActual] };
+      renderActividad2();
+    }
+
+    // Navigation zwischen den Aktivitäten
+    botonesNivel.forEach(btn => {
+      btn.addEventListener('click', () => {
+        botonesNivel.forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+        const nivel = parseInt(btn.getAttribute('data-nivel'), 10);
+        if (nivel === 0) {
+          actividad1Div.style.display = 'block';
+          actividad2Div.style.display = 'none';
+        } else {
+          actividad1Div.style.display = 'none';
+          actividad2Div.style.display = 'block';
+          estadoAct2 = { ...escenarios[escenarioActual] };
+          renderActividad2();
+        }
+      });
+    });
+
+    // Wechsel zwischen Unteraktivitäten (A, B, C)
+    subnivelBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const esc = btn.getAttribute('data-escenario');
+        cambiarEscenario(esc);
+      });
+    });
+
+    // Bruchantwort des Schülers als Pizza zeichnen
+    function dibujarFraccionRespuesta(n, d) {
+      pizzasRespuesta.innerHTML = "";
+      if (d <= 0 || n < 0) return;
+
+      const completas = Math.floor(n / d);
+      const resto = n % d;
+      const totalPizzas = completas + (resto > 0 ? 1 : 0);
+      if (totalPizzas === 0) return;
+
+      for (let i = 0; i < totalPizzas; i++) {
+        const card = document.createElement('div');
+        card.className = 'pizza-respuesta-card';
+        const svgWrap = document.createElement('div');
+        svgWrap.className = 'pizza-respuesta-svg';
+
+        const trozos = (i < completas) ? d : resto;
+        svgWrap.appendChild(crearPizzaConSalame(trozos, d));
+        card.appendChild(svgWrap);
+        pizzasRespuesta.appendChild(card);
+      }
+    }
+
+    // Antwort überprüfen
+    btnVerificar.addEventListener('click', () => {
+      const nResp = parseInt(respNum.value, 10);
+      const dResp = parseInt(respDen.value, 10);
+
+      pizzasRespuesta.innerHTML = "";
+      feedbackRespuesta.textContent = "";
+      feedbackRespuesta.className = "nota-pequena";
+      mensajeDiv.style.display = 'none';
+      mensajeTextoDiv.textContent = "";
+
+      if (isNaN(nResp) || isNaN(dResp) || dResp <= 0 || nResp < 0) {
+        feedbackRespuesta.textContent = "Gib einen gültigen Bruch ein.";
+        feedbackRespuesta.classList.add('respuesta-mal');
+        return;
+      }
+
+      dibujarFraccionRespuesta(nResp, dResp);
+
+      const { num: numCorrecto, den: denCorrecto } = sumaActualSimplificada();
+
+      if (nResp * denCorrecto === dResp * numCorrecto) {
+        // Richtig
+        feedbackRespuesta.textContent = "✔ Gut gemacht: Dein Bruch beschreibt richtig, wie viel Pizza insgesamt übrig geblieben ist.";
+        feedbackRespuesta.classList.add('respuesta-bien');
+
+        mensajeDiv.style.display = 'block';
+        mensajeDiv.classList.add('ok');
+        mensajeTextoDiv.innerHTML = `
+          Du hast einen Bruch gefunden, der der Summe der übrig gebliebenen Pizza von Luna und Max entspricht.<br>
+          Vereinfachte Summe: <strong>${numCorrecto}/${denCorrecto}</strong>.
+        `;
+
+        btnCortarLuna.style.display = 'none';
+        btnCortarMax.style.display = 'none';
+        panelCorteLuna.style.display = 'none';
+        panelCorteMax.style.display = 'none';
+        btnResetLuna.style.display = 'none';
+        btnResetMax.style.display = 'none';
+      } else {
+        // Falsch
+        feedbackRespuesta.textContent =
+          "❌ Dieser Bruch passt nicht zur Menge Pizza, die übrig geblieben ist.";
+        feedbackRespuesta.classList.add('respuesta-mal');
+
+        mensajeDiv.style.display = 'block';
+        mensajeDiv.classList.remove('ok');
+        mensajeTextoDiv.innerHTML = `
+          Überprüfe deinen Bruch und schau dir die Pizzen an.<br>
+          Wenn du möchtest, kannst du die Pizza von Luna oder von Max schneiden, um die Stücke besser zu sehen.
+        `;
+
+        // Zuerst nur die Schneide-Buttons anzeigen;
+        // der Zurück-Button erscheint nach dem ersten Schnitt
+        btnCortarLuna.style.display = 'inline-flex';
+        btnCortarMax.style.display = 'inline-flex';
+      }
+    });
+
+    // Schneide-Panels anzeigen
+    btnCortarLuna.addEventListener('click', () => {
+      panelCorteLuna.style.display = 'block';
+      mensajeCorteLuna.textContent = "";
+      inputFactorLuna.value = "";
+      panelCorteMax.style.display = 'none';
+      mensajeCorteMax.textContent = "";
+    });
+
+    btnCortarMax.addEventListener('click', () => {
+      panelCorteMax.style.display = 'block';
+      mensajeCorteMax.textContent = "";
+      inputFactorMax.value = "";
+      panelCorteLuna.style.display = 'none';
+      mensajeCorteLuna.textContent = "";
+    });
+
+    // Schnitt bei Luna anwenden
+    btnAplicarCorteLuna.addEventListener('click', () => {
+      const factor = parseInt(inputFactorLuna.value, 10);
+      if (isNaN(factor) || factor < 1) {
+        mensajeCorteLuna.textContent = "Gib eine Anzahl von Teilen ein, die größer oder gleich 1 ist.";
+        return;
+      }
+      if (factor > 10) {
+        mensajeCorteLuna.textContent = "Verwende eine sinnvolle Anzahl von Teilen (zum Beispiel von 1 bis 10).";
+        return;
+      }
+
+      estadoAct2.n1 *= factor;
+      estadoAct2.d1 *= factor;
+      mensajeCorteLuna.textContent = "";
+      dibujarPizzaAct2();
+
+      // Jetzt den Zurück-Button anzeigen
+      btnResetLuna.style.display = 'inline-flex';
+    });
+
+    // Schnitt bei Max anwenden
+    btnAplicarCorteMax.addEventListener('click', () => {
+      const factor = parseInt(inputFactorMax.value, 10);
+      if (isNaN(factor) || factor < 1) {
+        mensajeCorteMax.textContent = "Gib eine Anzahl von Teilen ein, die größer oder gleich 1 ist.";
+        return;
+      }
+      if (factor > 10) {
+        mensajeCorteMax.textContent = "Verwende eine sinnvolle Anzahl von Teilen (zum Beispiel von 1 bis 10).";
+        return;
+      }
+
+      estadoAct2.n2 *= factor;
+      estadoAct2.d2 *= factor;
+      mensajeCorteMax.textContent = "";
+      dibujarPizzaAct2();
+
+      btnResetMax.style.display = 'inline-flex';
+    });
+
+   // Zurück zum ursprünglichen Schnitt bei Luna
+    btnResetLuna.addEventListener('click', () => {
+      const esc = escenarios[escenarioActual];
+      estadoAct2.n1 = esc.n1;
+      estadoAct2.d1 = esc.d1;
+      panelCorteLuna.style.display = 'none';
+      mensajeCorteLuna.textContent = "";
+      inputFactorLuna.value = "";
+      dibujarPizzaAct2();
+      // Nach dem Zurücksetzen den Button wieder ausblenden
+      btnResetLuna.style.display = 'none';
+    });
+
+    // Zurück zum ursprünglichen Schnitt bei Max
+    btnResetMax.addEventListener('click', () => {
+      const esc = escenarios[escenarioActual];
+      estadoAct2.n2 = esc.n2;
+      estadoAct2.d2 = esc.d2;
+      panelCorteMax.style.display = 'none';
+      mensajeCorteMax.textContent = "";
+      inputFactorMax.value = "";
+      dibujarPizzaAct2();
+      btnResetMax.style.display = 'none';
+    });
+
+    // Initialisierung
+    dibujarActividad1(); // Aktivität 1 beim Laden anzeigen
+    // Aktivität 2 wird vorbereitet, wenn der Reiter geöffnet wird
+  </script>
+</body>
+</html>
